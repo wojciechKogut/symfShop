@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Shopping Cart {% endblock %}
+{% block stylesheets %}
+    <style>
+        .container {
+            margin: 0;
+        }
+        .borderless th, .borderless td {
+            border: none;
+        }
+        @media screen and (min-width: 1200px) {
+            .container {
+                max-width: 1500px !important;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="row">
+    {% if products is not empty %}
+        <div class="col-lg-8">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total price</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for index, product in products['cart_products'] %}
+                        <tr>
+                            <td>{{ product.getId() }}</td>
+                            <td>{{ product.getName() }}</td>
+                            <td>{{ product.getPrice() }} $</td>
+                            <td>
+                                <div class="input-group m-0">
+                                    <div class="input-group-prepend">
+                                        <button class="btn btn-dark btn-sm minus-btn" onclick="substractPrice({{ loop.index0 }}, {{ product.getPrice() }});"><i class="fa fa-minus"></i></button>
+                                    </div>
+                                    <input type="text" class="text-center qty_input w-50" value="{{ products['quantity'][index] }}" min="1">
+                                    <div class="input-group-prepend">
+                                        <button class="btn btn-dark btn-sm plus-btn" onclick="addPrice({{ loop.index0 }}, {{ product.getPrice() }});"><i class="fa fa-plus"></i></button>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="price">{{ product.getPrice()*products['quantity'][index] }} $</span>
+                            </td>
+                            <td>
+                                <form action="/cart/product/delete/{{ index }}" method="post" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <button class="btn btn-danger">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-lg-3 pl-5">
+            <div class="card">
+                <div class="card-header bg-transparent">
+                    <h2 class="text-muted">Summary</h2>
+                </div>
+                <div class="card-body">
+                    <table class="table borderless">
+                        <body>
+                            <tr>
+                                <th>Total Quantity</th>
+                                <td><span id="totalQuantity">{{ products['total_quantity'] }}</span></td>
+                            </tr>
+                            <tr>
+                                <th>Total Price</th>
+                                <td><span id="totalPrice">{{ products['total_price'] }} $</span></td>
+                            </tr>
+                        </body>
+                    </table>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <p class="alert alert-warning">No products in shopping cart</p>
+    {% endif %}
+</div>
+    {% block javascripts %} <script src="/js/cart.js"></script> {% endblock %}
+{% endblock %}

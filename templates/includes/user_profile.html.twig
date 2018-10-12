@@ -1,0 +1,47 @@
+
+<!-- Side navigation -->
+<div class="sidenav">
+    <a class="nav-item" href="/account/profile"><h5 class="font-weight-normal">Profile</h5></a>
+    <a class="nav-item" href="/logout"><h5 class="font-weight-normal">Logut</h5></a>
+</div>
+
+<!-- Page content -->
+<div class="main">
+
+    <div class="card col-lg-5 px-0">
+        <div class="card-header px-0"><h4>Credentials</h4></div>
+        <div class="card-body">
+            <div class="form-group row">
+                <label class="col-sm-4 pr-3">Username: </label>
+                <div class="col-sm-8">
+                    <p class="form-control-static mb-0">{{ app.user.username }}</p>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-4 pr-3">Email: </label>
+                <div class="col-sm-8">
+                    <p class="form-control-static">{{ app.user.email }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h3 class="my-3">Change your password</h3>
+
+    {{ form_start(form, {attr: {class: 'form-group w-75'} }) }}
+        {{ form_label(form.oldPassword) }}
+        {{ form_widget(form.oldPassword) }}
+        {{ form_label(form.newPassword.first) }}
+        {{ form_widget(form.newPassword.first) }}
+        {{ form_label(form.newPassword.second) }}
+        {{ form_widget(form.newPassword.second) }}
+
+        <div class="text-danger">
+            {{ form_errors(form.oldPassword) }}
+            {{ form_errors(form.newPassword.first) }}
+        </div>
+
+        <button class="btn btn-success float-right" type="submit">Save</button>
+    {{ form_end(form) }}
+
+</div>

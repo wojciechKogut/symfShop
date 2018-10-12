@@ -1,0 +1,19 @@
+.product-notification {
+    background-color: #cc3f3e;
+    border-radius: 50%;
+    position: absolute;
+    width: 17px;
+    height: 17px;
+    bottom: 0;
+    left: -2px;
+}
+
+#product-counter {
+    color: #fff;
+    position: absolute;
+    z-index: 10;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 12px;
+}

@@ -1,0 +1,4 @@
+lexik_jwt_authentication:
+    public_key: '%kernel.project_dir%/config/jwt/public.pem'
+    secret_key: '%kernel.project_dir%/config/jwt/private.pem'
+    pass_phrase: 'b9bf9de4075df31bb6c5583fc611578d'

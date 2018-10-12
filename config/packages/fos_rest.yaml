@@ -1,0 +1,14 @@
+fos_rest:
+    param_fetcher_listener: true
+    body_listener: true
+    format_listener:
+        enabled: true
+        rules:
+            - { path: '^/', priorities: ['json', 'html'], fallback_format: 'html' }
+    versioning: true
+    view:
+        view_response_listener: 'force'
+    routing_loader:
+        default_format: json
+    service:
+        view_handler: fos_rest.view_handler.default

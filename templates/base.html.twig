@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="stylesheet" href="/css/bootstrap.css">
+        <link rel="stylesheet" href="/css/jquery-ui.min.css">
+        <link rel="stylesheet" href="/css/fontawesome/css/all.css">
+        <link rel="stylesheet" href="/css/cart.css">
+        {% block stylesheets %}{% endblock %}
+        <script src="/js/jquery-1.12.4.js"></script>
+        <script src="/js/jquery-ui.js"></script>
+        {% block sortImg %} {% endblock %}
+    </head>
+    <body>
+        {{ render(controller('App\\Controller\\CategoryController::renderCategories')) }}
+        <div class="container mt-3">
+            {% for message in app.flashes('success') %}
+                <p class="alert alert-success w-75">{{  message }}</p>
+            {% endfor %}
+
+            {% for message in app.flashes('error') %}
+                <span class="alert alert-danger">{{ message }}</span>
+            {% endfor %}
+            {% block body %}{% endblock %}
+        </div>
+        {% block javascripts %}{% endblock %}
+        <script src="/js/bootstrap.js"></script>
+    </body>
+</html>

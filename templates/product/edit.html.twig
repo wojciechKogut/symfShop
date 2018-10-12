@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit {{ product.getName() }}{% endblock %}
+
+{% block sortImg %} <script src="/js/sort_img.js"></script> {% endblock %}
+
+{% block body %}
+    <h1>Edit {{ product.getName()  }}</h1>
+
+    {{ include('product/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <div class="form-row">
+        <div class="col-auto">
+            <a class="btn btn-secondary" href="{{ path('product_index') }}">back to list</a>
+        </div>
+        <div class="col-auto">
+            {{ include('product/_delete_form.html.twig') }}
+        </div>
+    </div>
+
+    {% if not product.getPhotos().isEmpty() %}
+        <p class="mt-4">Main Photo</p>
+        <form id="itemList" action="{{ path('product_edit', {id: product.getId()}) }}" method="post">
+            <ul id="sortable">
+                {% for photo in product.getPhotos() %}
+                    <li class="list-unstyled float-left ui-state-default" style="">
+                        <img width="150" height="100" class="img-thumbnail d-block" src="/uploads/photos/{{ photo.getName() }}" alt="">
+                        {% if photo.getIsMain() %}
+                            <input type="radio" name="photoId" value="{{ photo.getId() }}" id="" checked="checked">
+                            <input type="hidden" name="itemid[]" value="{{ photo.getId() }}">
+                        {% else %}
+                            <input type="radio" name="photoId" value="{{ photo.getId() }}" id="">
+                            <input type="hidden" name="itemid[]" value="{{ photo.getId() }}">
+                        {% endif %}
+                        {{ include('product_photo/_delete_form.html.twig') }}
+                    </li>
+                {% endfor %}
+                <button class="btn btn-success" type="submit" name="submit">Save</button>
+            </ul>
+        </form>
+    {% endif %}
+
+    <script>
+        $('input[type="file"]').change(function () {
+            for (var i = 0; file = this.files[i]; i++) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('input[type="file"]').after("<img class='img-thumbnail img-fluid mr-2' width='100' src='" + e.target.result + "'>");
+                }
+                reader.readAsDataURL(file)
+            }
+        })
+    </script>
+
+{% endblock %}

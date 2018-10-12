@@ -1,0 +1,3 @@
+
+<a class="text-danger" href="{{ path('product_photo_delete', {'id': photo.getId(), 'productId': product.getId(), 'token':csrf_token('delete' ~ photo.getId())}) }}" onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
+

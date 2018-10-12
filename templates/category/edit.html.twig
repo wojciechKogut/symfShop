@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit {{ category.getName() }}{% endblock %}
+
+{% block body %}
+    <h1 class="my-3">Edit {{ category.getName() }}</h1>
+
+    {{ include('category/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('category_index') }}">back to list</a>
+
+    {{ include('category/_delete_form.html.twig') }}
+{% endblock %}

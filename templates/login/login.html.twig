@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Login {% endblock %}
+
+{% block body %}
+
+    <div class="card w-50 mx-auto" style="position:absolute; top:50%; left:50%; transform: translate(-50%, -50%)">
+        <h1 class="text-center mt-4">Login</h1>
+        <span class="fa fa-user-circle display-4 text-center" style="font-size: 150px"></span>
+        <form class="mx-auto w-75 my-5" action="{{ path('login') }}" method="post">
+            <label for="username"><span class="fa fa-user mr-1"></span>Username:</label>
+            <input class="form-control" type="text" id="username" name="_username" value="{{ last_username }}" />
+
+            <label for="password"><span class="fa fa-unlock mr-1"></span>Password:</label>
+            <input class="form-control" type="password" id="password" name="_password" />
+
+            {% if error %}
+                <div class="text-danger mt-2">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+
+            <button class="btn btn-success mt-2 float-right" type="submit">Login</button>
+        </form>
+    </div>
+
+{% endblock %}

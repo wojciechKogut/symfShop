@@ -1,0 +1,99 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ product.getName() }}{% endblock %}
+{% block stylesheets %}
+    <style>
+        .borderless td, .borderless th {
+            border: none;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="card mb-2">
+        <div class="card-header">
+            <h1>{{ product.getName() }}</h1>
+        </div>
+        <div class="card-body">
+            <table class="table borderless">
+                <tbody>
+                    <tr>
+                        <th>Id</th>
+                        <td>{{ product.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Name</th>
+                        <td>{{ product.name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Description</th>
+                        <td>{{ product.description }}</td>
+                    </tr>
+                    <tr>
+                        <th>Price</th>
+                        <td>{{ product.price }}</td>
+                    </tr>
+                    <tr>
+                        <th>Date_of_creation</th>
+                        <td>{{ product.dateOfCreation ? product.dateOfCreation|date('Y-m-d H:i:s') : '' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Date_of_last_modification</th>
+                        <td>{{ product.dateOfLastModification ? product.dateOfLastModification|date('Y-m-d H:i:s') : '' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="form-row mb-3">
+        <div class="col-auto">
+            <a class="btn btn-secondary" href="{{ path('product_index') }}">back to list</a>
+        </div>
+        <div class="col-auto">
+            <a class="btn btn-info" href="{{ path('product_edit', {'id': product.id}) }}">edit</a>
+        </div>
+        <div class="col-auto">
+            {{ include('product/_delete_form.html.twig') }}
+        </div>
+        <div class="col-auto">
+            <a class="btn btn-warning" onclick="addToCart();" href="#">Add to shopping card</a>
+        </div>
+    </div>
+
+    {% if product.getCategories().isEmpty() %}
+        <p>No categories</p>
+    {% else %}
+        <p class="mt-4">Categories: </p>
+        <ul class="list-group w-25">
+            {% for category in product.getCategories() %}
+                <a href="{{ path('category_show', {'id': category.id}) }}"><li class="list-group-item">{{ category.getName() }}</li></a>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if not product.getPhotos().isEmpty() %}
+        {% for photo in product.getPhotos() %}
+            {% if photo.getIsMain() %}
+                <p class="mt-4">Main photo</p>
+                <div class="col-xl-6">
+                    <img class="img-fluid" src="/uploads/photos/{{ photo.getName() }}" alt="">
+                </div>
+            {% endif %}
+        {% endfor %}
+            <p class="mt-4">Product photo</p>
+            <ul>
+                {% for photo in product.getPhotos() %}
+                    <li class="float-left list-unstyled">
+                        <div class="d-inline-block mx-5">
+                            <a class="d-block" href="/uploads/photos/{{ photo.getName() }}" target="_blank"><img width="250" height="200" src="/uploads/photos/{{ photo.getName() }}" alt=""></a>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+    {% else %}
+        <p class="font-weight-bold">No product photo</p>
+    {% endif %}
+
+    {% block javascripts %} <script src="/js/cart.js"></script> {% endblock %}
+
+{% endblock %}
